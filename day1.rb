@@ -1,10 +1,8 @@
 input = File.read('day1.txt')
-  .split("\n\n")
-  .map do |series|
-    series.lines.map{ _1.chomp.to_i }.sum
-  end
+  .lines(chomp: true)
+  .slice_when { |_, after| after.empty? }
+  .map { |elf_cals| elf_cals.map(&:to_i).sum }
   .sort
 
 puts "Star 1: #{input.last}"
 puts "Star 2: #{input[-3..-1].sum}"
-
