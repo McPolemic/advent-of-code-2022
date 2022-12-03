@@ -1,9 +1,4 @@
-MOVE_SCORES = {
-  "A" => 1,
-  "B" => 2,
-  "C" => 3
-}
-MOVES = MOVE_SCORES.keys
+MOVES = %w[A B C]
 
 def win?(my_move, their_move)
   my_move == MOVES[MOVES.index(their_move) - 2]
@@ -11,7 +6,7 @@ end
 
 def score(round)
   their_move, my_move = round.tr("XYZ", "ABC").split(" ")
-  score = MOVE_SCORES[my_move]
+  score = MOVES.index(my_move) + 1
 
   if win?(my_move, their_move)
     score += 6
