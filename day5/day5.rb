@@ -69,16 +69,25 @@ class Workspace
   end
 end
 
+# New, improved!
+class CrateMover9001 < Workspace
+  def move(quantity, from, to)
+    @stacks[to].push(*@stacks[from].pop(quantity))
+  end
+end
+
 config = ConfigReader.new("day5.txt")
 workspace = Workspace.new(config.starting_config)
+crate_mover_9001 = CrateMover9001.new(config.starting_config)
 
 # Run the commands
 config
   .commands
-  .each { |quantity, from, to| workspace.move(quantity, from, to) }
+  .each do |quantity, from, to|
+    workspace.move(quantity, from, to)
+    crate_mover_9001.move(quantity, from, to)
+  end
 
-star_1 = workspace.top_of_stacks
-star_2 = nil
-
-puts "Star 1: #{star_1}"
-puts "Star 2: #{star_2}"
+pp crate_mover_9001
+puts "Star 1: #{workspace.top_of_stacks}"
+puts "Star 2: #{crate_mover_9001.top_of_stacks}"
