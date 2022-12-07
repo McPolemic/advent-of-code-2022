@@ -1,4 +1,7 @@
 class LogReader
+  TOTAL_SPACE = 70_000_000
+  NEEDED_SPACE = 30_000_000
+
   attr_reader :contents, :line, :file_system
 
   def initialize(contents)
@@ -26,6 +29,18 @@ class LogReader
 
   def directories_up_to_100_000
     directory_sizes.select{ |path, size| size <= 100_000 }.map(&:last).sum
+  end
+
+  def directory_to_delete
+    available_space = TOTAL_SPACE - directory_sizes["/"]
+    needed_space = NEEDED_SPACE - available_space
+
+    # Loop through the directory sizes, finding something that's as small as
+    # possible while still being over the needed space
+    directory_sizes
+      .select{ |path, size| size >= needed_space }
+      .sort_by{ _1.last }
+      .first
   end
 
   def read_commands!
@@ -69,7 +84,7 @@ log_reader = LogReader.new(input)
 log_reader.read_commands!
 
 star_1 = log_reader.directories_up_to_100_000
-star_2 = nil
+star_2 = log_reader.directory_to_delete.last
 
 puts "Star 1: #{star_1}"
 puts "Star 2: #{star_2}"
