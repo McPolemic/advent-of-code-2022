@@ -74,7 +74,7 @@ RSpec.describe World do
     end
   end
 
-  describe '#scenic_score' do
+  context 'visibility' do
     let(:world) do
       World.new([[3, 0, 3, 7, 3],
                  [2, 5, 5, 1, 2],
@@ -83,8 +83,34 @@ RSpec.describe World do
                  [3, 5, 3, 9, 0]])
     end
 
-    it 'determines the scenic score for a tree' do
-      expect(world.scenic_score(2, 3)).to eq 8
+    describe '#trees_visible_above' do
+      it 'determines the visible trees' do
+        expect(world.trees_visible_above(2, 3)).to eq 2
+      end
+    end
+
+    describe '#trees_visible_below' do
+      it 'determines the visible trees' do
+        expect(world.trees_visible_below(2, 3)).to eq 1
+      end
+    end
+
+    describe '#trees_visible_left' do
+      it 'determines the visible trees' do
+        expect(world.trees_visible_left(2, 3)).to eq 2
+      end
+    end
+
+    describe '#trees_visible_right' do
+      it 'determines the visible trees' do
+        expect(world.trees_visible_right(2, 3)).to eq 2
+      end
+    end
+
+    describe '#scenic_score' do
+      it 'determines the scenic score for a tree' do
+        expect(world.scenic_score(2, 3)).to eq 8
+      end
     end
   end
 end
